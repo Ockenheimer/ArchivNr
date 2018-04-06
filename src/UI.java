@@ -1,20 +1,30 @@
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author advmz1
  */
 public class UI extends javax.swing.JFrame {
 
+    static int Nr = 0;
+
+    private Object frame;
+
     /**
      * Creates new form UI
      */
     public UI() {
+
         initComponents();
+        setze();
+
     }
 
     /**
@@ -27,24 +37,46 @@ public class UI extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
-        minusKnopf = new javax.swing.JButton();
-        printKnopf = new javax.swing.JButton();
-        plusKnopf = new javax.swing.JButton();
+        jButtonMinus = new javax.swing.JButton();
+        jButtonPrint = new javax.swing.JButton();
+        jButtonPlus = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonSet = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTextField1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        minusKnopf.setText("-");
+        jButtonMinus.setText("-");
+        jButtonMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMinusActionPerformed(evt);
+            }
+        });
 
-        printKnopf.setText("DRUCKEN");
+        jButtonPrint.setText("DRUCKEN");
 
-        plusKnopf.setText("+");
+        jButtonPlus.setText("+");
+        jButtonPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlusActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel1.setText("Aktennummer");
+
+        jButtonSet.setText("Setze Nr");
+        jButtonSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSetActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        jLabel2.setText("(c) ToMaSch 2018");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,31 +87,54 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(minusKnopf)
+                        .addComponent(jButtonMinus)
                         .addGap(68, 68, 68)
-                        .addComponent(printKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(61, 61, 61)
-                        .addComponent(plusKnopf))
+                        .addComponent(jButtonPlus))
                     .addComponent(jLabel1))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonSet, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jButtonSet, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(minusKnopf)
-                    .addComponent(printKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plusKnopf))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(jButtonMinus)
+                    .addComponent(jButtonPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPlus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlusActionPerformed
+        addiere();
+    }//GEN-LAST:event_jButtonPlusActionPerformed
+
+    private void jButtonMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMinusActionPerformed
+        subtrahiere();
+    }//GEN-LAST:event_jButtonMinusActionPerformed
+
+    private void jButtonSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetActionPerformed
+        setze();
+    }//GEN-LAST:event_jButtonSetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,15 +167,42 @@ public class UI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UI().setVisible(true);
+
             }
         });
     }
 
+    public void aktuallisiereAnzeige() {
+        jTextField1.setText(Integer.toString(Nr));
+    }
+
+    // Zähle zur Nummer Eins hinzu
+    public void addiere() {
+        Nr += 1;
+        aktuallisiereAnzeige();
+    }
+
+    // Ziehe von der Nummer Eins ab
+    public void subtrahiere() {
+        Nr -= 1;
+        aktuallisiereAnzeige();
+    }
+
+    //Setze die Nummer neu
+    public void setze() {
+
+        String Speicher = JOptionPane.showInputDialog(frame, "Setzen Sie die Archivlisten-Nummer");
+
+        Nr = Integer.parseInt(Speicher);
+        aktuallisiereAnzeige();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonMinus;
+    private javax.swing.JButton jButtonPlus;
+    private javax.swing.JButton jButtonPrint;
+    private javax.swing.JButton jButtonSet;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton minusKnopf;
-    private javax.swing.JButton plusKnopf;
-    private javax.swing.JButton printKnopf;
     // End of variables declaration//GEN-END:variables
 }
