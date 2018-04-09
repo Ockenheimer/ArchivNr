@@ -1,4 +1,21 @@
 
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import static java.awt.GraphicsEnvironment.isHeadless;
+import java.awt.HeadlessException;
+import java.awt.PrintJob;
+import java.awt.Toolkit;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -13,9 +30,13 @@ import javax.swing.JOptionPane;
  */
 public class UI extends javax.swing.JFrame {
 
-    static int Nr = 0;
+    /**
+     *
+     */
+    public static int Nr = 0;
 
     private Object frame;
+    
 
     /**
      * Creates new form UI
@@ -48,6 +69,13 @@ public class UI extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setToolTipText("");
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButtonMinus.setText("-");
         jButtonMinus.addActionListener(new java.awt.event.ActionListener() {
@@ -57,6 +85,11 @@ public class UI extends javax.swing.JFrame {
         });
 
         jButtonPrint.setText("DRUCKEN");
+        jButtonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrintActionPerformed(evt);
+            }
+        });
 
         jButtonPlus.setText("+");
         jButtonPlus.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +116,7 @@ public class UI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(107, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -94,7 +127,7 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(jButtonPlus))
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonSet, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSet)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -136,6 +169,14 @@ public class UI extends javax.swing.JFrame {
         setze();
     }//GEN-LAST:event_jButtonSetActionPerformed
 
+    private void jButtonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrintActionPerformed
+        drucken();
+    }//GEN-LAST:event_jButtonPrintActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -167,6 +208,7 @@ public class UI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UI().setVisible(true);
+                
 
             }
         });
@@ -174,6 +216,7 @@ public class UI extends javax.swing.JFrame {
 
     public void aktuallisiereAnzeige() {
         jTextField1.setText(Integer.toString(Nr));
+        jButtonPrint.grabFocus();
     }
 
     // Zähle zur Nummer Eins hinzu
@@ -189,13 +232,54 @@ public class UI extends javax.swing.JFrame {
     }
 
     //Setze die Nummer neu
-    public void setze() {
+    public void setze() throws Exceptions{
 
         String Speicher = JOptionPane.showInputDialog(frame, "Setzen Sie die Archivlisten-Nummer");
 
         Nr = Integer.parseInt(Speicher);
         aktuallisiereAnzeige();
     }
+
+    //hier beginnt der Druck-Code
+
+    
+
+    public void drucken(){
+        
+      
+      
+        try {
+            Font f = new Font("SansSerif", Font.PLAIN, 55);
+            
+            jTextField1.setFont(f);
+            jTextField1.
+            Boolean complete = jTextField1.print(); 
+        
+            
+            if(complete);
+            
+//            SimplePrint lt = new SimplePrint();
+//        lt.printString("If this text gets printed, it will have worked! ;D");
+//
+
+
+//     
+//        Print printer = new Print();
+//        //printer.addString(jTextField1.getText());
+//        
+//        printer.print(Integer.toString(Nr));
+//        //this ist ein frame/panel/container, es darf halt nicht ''null'' sein! 
+//
+//        //false steht für den Rahmen. Dass der Titel ausdruckt wird, habe ich noch nicht geschafft!
+//        //standardmäßig ist Hochformat
+//       // printer.druckeSeite(this,"nix",false,true); //würde es im Querformat drucken
+        } catch (PrinterException ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    //hier endet der Druckcode
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonMinus;
     private javax.swing.JButton jButtonPlus;
