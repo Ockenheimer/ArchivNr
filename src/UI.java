@@ -231,12 +231,26 @@ public class UI extends javax.swing.JFrame {
         aktuallisiereAnzeige();
     }
 
+    
+    public int check(){
+        
+        
+        String speicher = JOptionPane.showInputDialog(frame, "Setzen Sie die Archivlisten-Nummer");
+       try {
+           int number = Integer.parseInt(speicher);
+    return number;
+ }
+ catch(NumberFormatException e) {
+     
+     JOptionPane.showMessageDialog(rootPane, "Bitte erfassen Sie eine Zahl.","Fehler",JOptionPane.ERROR_MESSAGE);
+   return 0;
+ }
+}
+        
     //Setze die Nummer neu
     public void setze() {
-
-        String Speicher = JOptionPane.showInputDialog(frame, "Setzen Sie die Archivlisten-Nummer");
-
-        Nr = Integer.parseInt(Speicher);
+        
+        Nr = check();
         aktuallisiereAnzeige();
     }
 
