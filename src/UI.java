@@ -232,7 +232,7 @@ public class UI extends javax.swing.JFrame {
     }
 
     //Setze die Nummer neu
-    public void setze() throws Exceptions{
+    public void setze() {
 
         String Speicher = JOptionPane.showInputDialog(frame, "Setzen Sie die Archivlisten-Nummer");
 
@@ -247,35 +247,42 @@ public class UI extends javax.swing.JFrame {
     public void drucken(){
         
       
-      
-        try {
-            Font f = new Font("SansSerif", Font.PLAIN, 55);
-            
-            jTextField1.setFont(f);
-            jTextField1.
-            Boolean complete = jTextField1.print(); 
-        
-            
-            if(complete);
-            
-//            SimplePrint lt = new SimplePrint();
-//        lt.printString("If this text gets printed, it will have worked! ;D");
-//
-
-
-//     
-//        Print printer = new Print();
-//        //printer.addString(jTextField1.getText());
+//      
+//        try {
+//            Font f = new Font("SansSerif", Font.PLAIN, 55);
+//            
+//            jTextField1.setFont(f);
+//            jTextField1.
+//            Boolean complete = jTextField1.print(); 
 //        
-//        printer.print(Integer.toString(Nr));
-//        //this ist ein frame/panel/container, es darf halt nicht ''null'' sein! 
+//            
+//            if(complete);
+//            
+////            SimplePrint lt = new SimplePrint();
+////        lt.printString("If this text gets printed, it will have worked! ;D");
+////
 //
-//        //false steht für den Rahmen. Dass der Titel ausdruckt wird, habe ich noch nicht geschafft!
-//        //standardmäßig ist Hochformat
-//       // printer.druckeSeite(this,"nix",false,true); //würde es im Querformat drucken
-        } catch (PrinterException ex) {
-            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//
+////     
+////        Print printer = new Print();
+////        //printer.addString(jTextField1.getText());
+////        
+////        printer.print(Integer.toString(Nr));
+////        //this ist ein frame/panel/container, es darf halt nicht ''null'' sein! 
+////
+////        //false steht für den Rahmen. Dass der Titel ausdruckt wird, habe ich noch nicht geschafft!
+////        //standardmäßig ist Hochformat
+////       // printer.druckeSeite(this,"nix",false,true); //würde es im Querformat drucken
+//        } catch (PrinterException ex) {
+//            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+
+//Java-Print
+JavaPrinter jp = new JavaPrinter();
+jp.drucken(Integer.toString(Nr));
+
+
     }
     //hier endet der Druckcode
 
