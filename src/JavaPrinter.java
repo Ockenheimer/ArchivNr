@@ -54,27 +54,25 @@ public class JavaPrinter implements Printable {
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
         Graphics2D g2d = (Graphics2D) g;
-        Paper paper = pf.getPaper();
-
-        paper.setSize(pf.getWidth(), pf.getHeight());
-        paper.setImageableArea(12, 12, pf.getWidth() - 24, pf.getHeight() - 24);
-
-       // pf.setPaper(paper);
-        pf.setOrientation(0);
         
-        System.out.println(pf.getImageableX());
-        System.out.println(pf.getImageableY());
-
-        
-
+        //Schirftarten für Beschriftung
         Font font = new Font("SansSerif", Font.PLAIN, 55);
-       
-        g2d.setFont(font); g2d.drawString(number, 1, 55);
-        /* Now we perform our rendering */
-        
-        g2d.rotate(Math.toRadians(90.0));
+        Font font2 = new Font("SansSerif", Font.PLAIN, 8);
+
+        //Übersetzung der PaperFormat-Beschriftung für g2d
         g2d.translate(pf.getImageableX(), pf.getImageableY());
-       
+
+        //erste Zeile
+        g2d.setFont(font2);
+        g2d.drawString("Archiv Mainz-Mitte", 1, 8);
+
+        //zweite Zeile        
+        g2d.setFont(font);
+        //zweiter Int ist Abstand von oben (1.Zeile + Lücke)
+        g2d.drawString(number, 1, 75);
+
+        // pf.setOrientation(PageFormat.LANDSCAPE);
+        //   g2d.rotate(Math.toRadians(270.0));
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -84,19 +82,33 @@ public class JavaPrinter implements Printable {
         number = s;
 
         PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+       
+        PrinterJob job = PrinterJob.getPrinterJob();
+        PageFormat pf = job.defaultPage();
 
-       PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(this); 
-        //  job.defaultPage(page);
+        //Paper für Ausdruck
+        Paper paper = new Paper();
+
+        paper.setSize(105, 288);
+        paper.setImageableArea(60, 20, paper.getWidth() - 120, paper.getHeight() - 40);
+        
+        pf.setPaper(paper);
+        
+        //Eindrehen des Drucks auf Querformat
+        pf.setOrientation(PageFormat.LANDSCAPE);
+
+        
+        //übergeben des Druckjobs an Drucker mit geändertem PageFormat
+        job.setPrintable(this, pf);
         try {
             job.setPrintService(service);
         } catch (PrinterException ex) {
             Logger.getLogger(JavaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //  boolean ok = job.printDialog();
-        //if (ok) {
         try {
+            
+            //Ausdruck starten
             job.print();
         } catch (PrinterException ex) {
             /* The job did not successfully complete */
