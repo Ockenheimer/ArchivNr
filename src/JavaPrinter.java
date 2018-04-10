@@ -30,13 +30,7 @@
  */
 
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import java.awt.print.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
 
 public class JavaPrinter implements Printable {
 
@@ -54,7 +48,7 @@ public class JavaPrinter implements Printable {
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
         Graphics2D g2d = (Graphics2D) g;
-        
+
         //Schirftarten für Beschriftung
         Font font = new Font("SansSerif", Font.PLAIN, 55);
         Font font2 = new Font("SansSerif", Font.PLAIN, 8);
@@ -64,15 +58,21 @@ public class JavaPrinter implements Printable {
 
         //erste Zeile
         g2d.setFont(font2);
-        g2d.drawString("Archiv Mainz-Mitte", 1, 8);
+        g2d.drawString("Archiv Mainz-Mitte                                                                   Archiv Mainz-Mitte", 35, 15);
+        /*
+        Das die Leerzeichen nicht hübsch sind, ist mir auch klar.
+        Leider machte der Drucker einen Klitch, wenn ich versuchte das draw String übereinander auszuführen.
+        Nicht schön aber selten.
+        
+        Ich nenn es "Best Practice"
+        
+        */
 
         //zweite Zeile        
         g2d.setFont(font);
         //zweiter Int ist Abstand von oben (1.Zeile + Lücke)
-        g2d.drawString(number, 1, 75);
-
-        // pf.setOrientation(PageFormat.LANDSCAPE);
-        //   g2d.rotate(Math.toRadians(270.0));
+        g2d.drawString(number, 10, 75);
+        g2d.drawString(number, 300, 75);
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -81,35 +81,31 @@ public class JavaPrinter implements Printable {
     public void drucken(String s) {
         number = s;
 
-        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-       
         PrinterJob job = PrinterJob.getPrinterJob();
+
+        job.setJobName("Bamm");
+
         PageFormat pf = job.defaultPage();
 
         //Paper für Ausdruck
         Paper paper = new Paper();
 
-        paper.setSize(105, 288);
-        paper.setImageableArea(60, 20, paper.getWidth() - 120, paper.getHeight() - 40);
-        
-        pf.setPaper(paper);
-        
-        //Eindrehen des Drucks auf Querformat
-        pf.setOrientation(PageFormat.LANDSCAPE);
+        paper.setSize(105, 560);
+        paper.setImageableArea(5, 70, paper.getWidth(), paper.getHeight());
 
-        
+        pf.setPaper(paper);
+
+        //Eindrehen des Drucks auf Querformat
+        pf.setOrientation(PageFormat.REVERSE_LANDSCAPE);
+        job.validatePage(pf);
         //übergeben des Druckjobs an Drucker mit geändertem PageFormat
         job.setPrintable(this, pf);
-        try {
-            job.setPrintService(service);
-        } catch (PrinterException ex) {
-            Logger.getLogger(JavaPrinter.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         try {
-            
+
             //Ausdruck starten
             job.print();
+
         } catch (PrinterException ex) {
             /* The job did not successfully complete */
         }
