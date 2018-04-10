@@ -38,10 +38,10 @@ import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 
-public class JavaPrinter implements Printable{
+public class JavaPrinter implements Printable {
 
-    
     static String number;
+
     public int print(Graphics g, PageFormat pf, int page) throws
             PrinterException {
 
@@ -54,10 +54,27 @@ public class JavaPrinter implements Printable{
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
         Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
+        Paper paper = pf.getPaper();
 
+        paper.setSize(pf.getWidth(), pf.getHeight());
+        paper.setImageableArea(12, 12, pf.getWidth() - 24, pf.getHeight() - 24);
+
+       // pf.setPaper(paper);
+        pf.setOrientation(0);
+        
+        System.out.println(pf.getImageableX());
+        System.out.println(pf.getImageableY());
+
+        
+
+        Font font = new Font("SansSerif", Font.PLAIN, 55);
+       
+        g2d.setFont(font); g2d.drawString(number, 1, 55);
         /* Now we perform our rendering */
-        g.drawString(number, 10, 10);
+        
+        g2d.rotate(Math.toRadians(90.0));
+        g2d.translate(pf.getImageableX(), pf.getImageableY());
+       
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -65,28 +82,18 @@ public class JavaPrinter implements Printable{
 
     public void drucken(String s) {
         number = s;
-        Paper paper = new Paper();
-        
-        paper.setSize(110, 249);
-        paper.setImageableArea(6, 12, 98, 225);
-        
-        PageFormat page = new PageFormat();
-        
-        page.setPaper(paper);
-        page.setOrientation(0);
+
         PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-        
-        
-        
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(this);
-        job.defaultPage(page);
+
+       PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(this); 
+        //  job.defaultPage(page);
         try {
             job.setPrintService(service);
         } catch (PrinterException ex) {
             Logger.getLogger(JavaPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //  boolean ok = job.printDialog();
         //if (ok) {
         try {
@@ -97,5 +104,4 @@ public class JavaPrinter implements Printable{
         // }
     }
 
- 
 }
