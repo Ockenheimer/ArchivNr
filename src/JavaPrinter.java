@@ -58,10 +58,10 @@ public class JavaPrinter implements Printable {
 
         //erste Zeile
         g2d.setFont(font2);
-        g2d.drawString("Archiv Mainz-Mitte                                                                   Archiv Mainz-Mitte", 35, 15);
+        g2d.drawString("Archiv Mainz                                                                         Archiv Mainz", 35, 15);
         /*
         Das die Leerzeichen nicht hübsch sind, ist mir auch klar.
-        Leider machte der Drucker einen Klitch, wenn ich versuchte das draw String übereinander auszuführen.
+        Leider machte der Drucker einen Glitch, wenn ich versuchte das draw String übereinander auszuführen.
         Nicht schön aber selten.
         
         Ich nenn es "Best Practice"
@@ -83,7 +83,7 @@ public class JavaPrinter implements Printable {
 
         PrinterJob job = PrinterJob.getPrinterJob();
 
-        job.setJobName("Bamm");
+        job.setJobName("Archiv-Nr Druck");
 
         PageFormat pf = job.defaultPage();
 
